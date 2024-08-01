@@ -3,7 +3,7 @@ import time
 import json
 
 UDP_IP = "192.168.4.1"
-UDP_PORT = 4210
+UDP_PORT = 8888
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 command_timeout = 0.5

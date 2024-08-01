@@ -56,14 +56,20 @@ def keyboardController(angle, yaw_rate):
 
             #go up
             if (event.type == KEYDOWN and event.key == pygame.K_w):
-                height = height + 0.1
-                if (height > 2.0):
-                    height = 2.0
+                # height = height + 0.1
+                height = 0.5
+                if (height > 1.0):
+                    height = 1.0
                 height = round(height,1)
 
             #go down
             if (event.type == KEYDOWN and event.key == pygame.K_s):
-                height = height - 0.1
+                # height = height - 0.1
+                if height == 0.1:
+                    height = 0.0
+                else:
+                    height = 0.1
+                
                 if (height < 0.0):
                     height = 0.0
                 height = round(height,1)
@@ -75,6 +81,8 @@ def keyboardController(angle, yaw_rate):
 
         #send the command
         commander.altitudeHoldFlying(height, roll_set, pitch_set, yaw_set)
+        # commander.positionHoldFlying(height, roll_set, pitch_set, yaw_set)
+        print(height, roll_set, pitch_set, yaw_set)
         time.sleep(0.05)
     return
 

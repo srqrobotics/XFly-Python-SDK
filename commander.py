@@ -39,6 +39,25 @@ def altitudeHoldFlying(set_height, roll, pitch, yaw_rate):
 
     else:
         return 0
+    
+#################################################################################################
+
+#################################################################################################
+def positionHoldFlying(set_height, roll, pitch, yaw_rate):
+    a = validation.height(set_height)
+    b = validation.euler(roll)
+    c = validation.euler(pitch)
+    d = validation.euler(yaw_rate)
+
+    dataValidated = a and b and c and d
+
+    if (dataValidated):
+        dataPacket = packet.posHold(set_height, roll, pitch, yaw_rate)
+        communicator.transmit(dataPacket)
+        return 1
+
+    else:
+        return 0
 
 #################################################################################################
 #Automatic Takeoff-------------------------------------------------------------------------------
@@ -216,4 +235,13 @@ def getTimeConfirmation(task_time = 3.0):
     start_time = time.time()
     while(time.time() - start_time < task_time):
         a = 1
+    return 1
+
+
+
+
+
+def verifyByLED():
+    dataPacket = packet.verifyByLED()
+    communicator.transmit(dataPacket)
     return 1

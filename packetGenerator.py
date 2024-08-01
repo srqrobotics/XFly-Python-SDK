@@ -1,12 +1,15 @@
 #Packet Structure - (Mode, Parameters) 
 import json
 
+WIFI_MODE_SDK = 1
+
 MANUAL_MODE = 1
 ALT_MODE    = 2
 AUTO_MODE    = 3
 LAND        = 4
 TELEMETRY   = 5
 TUNE_PID    = 6
+VERIFY_BY_LED = 7
 
 #################################################################################################
 #Create packet for the manual mode---------------------------------------------------------------
@@ -14,6 +17,7 @@ TUNE_PID    = 6
 def setManual(thrust, roll, pitch, yaw_rate):
     
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":MANUAL_MODE,
         "T":thrust,
         "R":roll,
@@ -30,6 +34,7 @@ def setManual(thrust, roll, pitch, yaw_rate):
 def altHold(height, roll, pitch, yaw_rate):
     
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":ALT_MODE,
         "H":round(height,1),
         "R":round(roll),
@@ -46,6 +51,7 @@ def altHold(height, roll, pitch, yaw_rate):
 def posHold(height, vx, vy, yaw_rate):
     
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":AUTO_MODE,
         "H":height,
         "VX":vx,
@@ -62,6 +68,7 @@ def posHold(height, vx, vy, yaw_rate):
 def linearMovement(set_vel, duration, direction):
     
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":AUTO_MODE,
         "Command":3,
         "Dir":direction,
@@ -78,6 +85,7 @@ def linearMovement(set_vel, duration, direction):
 def rotationalMovement(angle, direction):
     
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":AUTO_MODE,
         "Command":4,
         "Dir":direction,
@@ -92,6 +100,7 @@ def rotationalMovement(angle, direction):
 #################################################################################################
 def takeoff(height = 0.5):
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":AUTO_MODE,
         "Command":1,
         "H": height
@@ -104,6 +113,7 @@ def takeoff(height = 0.5):
 #################################################################################################
 def land():
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":AUTO_MODE,
         "Command":2
         }
@@ -117,12 +127,22 @@ def land():
 def setPID(ID, KP, KI, KD):
     
     packet = {
+        "WM":WIFI_MODE_SDK,
         "M":TUNE_PID,
         "ID":ID,
         "KP":KP,
         "KI":KI,
         "KD":KD 
         }
+
+    packet = json.dumps(packet)
+    return packet.encode()
+
+def verifyByLED():
+    packet = {
+        "WM":WIFI_MODE_SDK,
+        "M":VERIFY_BY_LED
+    }
 
     packet = json.dumps(packet)
     return packet.encode()
